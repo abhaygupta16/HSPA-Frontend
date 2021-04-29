@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from 'src/app/model/user';
+import { AlertifyService } from 'src/app/services/alertify.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-register',
@@ -9,8 +12,12 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class UserRegisterComponent implements OnInit {
 
   registerationForm: FormGroup;
+  user :User;
+  onSubmitted : Boolean;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private userService: UserService,
+              private alertifyService : AlertifyService) { }
 
 
 
@@ -36,6 +43,10 @@ export class UserRegisterComponent implements OnInit {
     },{Validators:this.passwordMatchingValidator});
   }
 
+  passwordMatchingValidator(fg : FormGroup) : Validators{
+    return fg.get('password').value === fg.get('confirmPassword').value ? null : {notmatched:true};
+  }
+
   //Get metgoads for all the form controls in registration form
   get userName(){
     return this.registerationForm.get('userName') as FormControl;
@@ -54,15 +65,29 @@ export class UserRegisterComponent implements OnInit {
   get mobile(){
     return this.registerationForm.get('mobile') as FormControl;
   }
-
-
-
-  passwordMatchingValidator(fg : FormGroup) : Validators{
-    return fg.get('password').value === fg.get('confirmPassword').value ? null : {notmatched:true};
-  }
+ //------------------------
 
   onSubmit(){
-    console.log(this.registerationForm);
+    console.log(this.registerationForm.value);
+    this.onSubmitted=true;
+    if(this.registerationForm.valid){
+      //this.user=Object.assign(this.user,this.registerationForm.value);
+      this.userService.addUser(this.userData());
+      this.registerationForm.reset();
+      this.onSubmitted=false;
+      this.alertifyService.success("form submitted");
+    }else{
+      this.alertifyService.error("provide valid inputs");
+    }
+  }
+
+  userData():User{
+    return this.user={
+      userName:this.userName.value,        //userName in right side is the formcontrol of the registration form
+      email:this.email.value,
+      password:this.password.value,
+      mobile:this.mobile.value
+    };
   }
 
 }

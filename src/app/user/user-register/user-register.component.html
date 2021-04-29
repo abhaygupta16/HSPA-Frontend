@@ -32,7 +32,7 @@
 
           <div class="form-group col-12">
             <label for="password">Password</label>
-            <input type="text" class="form-control" formControlName="password">
+            <input type="password" class="form-control" formControlName="password">
             <span class="error-block" *ngIf="!password.valid && (password.touched || onSubmitted)">
               <span *ngIf="password.errors['required']">
                 please provide password
@@ -45,7 +45,7 @@
 
           <div class="form-group col-12">
             <label for="confirmpassword">Confirm Password</label>
-            <input type="text" class="form-control" formControlName="confirmPassword">
+            <input type="password" class="form-control" formControlName="confirmPassword">
             <span class="error-block" *ngIf="!confirmPassword.valid && (confirmPassword.touched || onSubmitted)">
               <span *ngIf="confirmPassword.hasError('required')">
                 please provide confirmPassword

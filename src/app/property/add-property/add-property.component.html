@@ -42,9 +42,9 @@
                 </div>
 
                 <div class="from-group col-12 mt-2 ">
-                  <label for="in/Building/Society/Project">Name</label>
-                  <input type="text" #propName="ngModel" ngModel class="form-control" required minlength="5"
-                    name="Name">
+                  <label class="form-label">in Building/Society/Project</label>
+                  <input type="text" class="form-control" required minlength="5"
+                    name="Name" #propName="ngModel" ngModel [(ngModel)]="propertyView.Name">
                   <span *ngIf="!propName.valid && propName.touched" class="error-block">
                     <span *ngIf="propName.errors.required ">please provide Name</span>
                     <span *ngIf="propName.errors.minlength">length must be more than 5</span>

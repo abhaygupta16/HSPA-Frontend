@@ -68,17 +68,23 @@ export class UserRegisterComponent implements OnInit {
  //------------------------
 
   onSubmit(){
+
     console.log(this.registerationForm.value);
     this.onSubmitted=true;
+
     if(this.registerationForm.valid){
       //this.user=Object.assign(this.user,this.registerationForm.value);
       this.userService.addUser(this.userData());
-      this.registerationForm.reset();
-      this.onSubmitted=false;
-      this.alertifyService.success("form submitted");
+      this.onReset();
+      this.alertifyService.success('Congrats, you are successfully registered');
     }else{
-      this.alertifyService.error("provide valid inputs");
+      this.alertifyService.error('Kindly provide the required fields');
     }
+  }
+
+  onReset() {
+    this.onSubmitted = false;
+    this.registerationForm.reset();
   }
 
   userData():User{

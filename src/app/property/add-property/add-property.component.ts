@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs/public_api';
 import { retry } from 'rxjs/operators';
 import { Ipropertybase } from 'src/app/model/ipropertybase';
+import { Property } from 'src/app/model/property';
+import { HousingService } from 'src/app/services/housing.service';
 
 
 @Component({
@@ -17,6 +19,8 @@ export class AddPropertyComponent implements OnInit {
   @ViewChild('formsTab') formsTab: TabsetComponent;
   addPropertyForm:FormGroup;
   nextClicked:boolean;
+
+  property=new Property();
 
   propertyTypes :any = ["House","Apartment","Duplex"];
   furnishTypes :any = ["Semi","Fully","Unfurnished"];
@@ -35,7 +39,7 @@ export class AddPropertyComponent implements OnInit {
     BuiltArea:null
   };
 
-  constructor(private fb:FormBuilder,private router:Router) { }
+  constructor(private fb:FormBuilder,private router:Router,private housingService:HousingService) { }
 
   ngOnInit() {
     this.createAddPropertyForm();
@@ -181,7 +185,7 @@ export class AddPropertyComponent implements OnInit {
       return this.OtherInfo.controls.Gated as FormControl;
     }
 
-    get MainEntrace() {
+    get MainEntrance() {
       return this.OtherInfo.controls.MainEntrance as FormControl;
     }
 
@@ -202,12 +206,41 @@ export class AddPropertyComponent implements OnInit {
     this.nextClicked=true;
 
     if(this.allTabsValidated()){
+      this.mapProperty();
+      this.housingService.addProperty(this.property);
       console.log('Congrats, your property listed successfully on our website');
     }else{
       console.log('Kindly Review all tabs of the form again');
     }
     console.log(this.addPropertyForm);
   }
+
+  mapProperty(): void {
+    this.property.SellRent = +this.SellRent.value;
+    this.property.BHK = this.BHK.value;
+    this.property.PType = this.PType.value;
+    this.property.Name = this.Name.value;
+    this.property.City = this.City.value;
+    this.property.FType = this.FType.value;
+    this.property.Price = this.Price.value;
+    this.property.Security = this.Security.value;
+    this.property.Maintenance = this.Maintenance.value;
+    this.property.BuiltArea = this.BuiltArea.value;
+    this.property.CarpetArea = this.CarpetArea.value;
+    this.property.FloorNo = this.FloorNo.value;
+    this.property.TotalFloor = this.TotalFloor.value;
+    this.property.Address = this.Address.value;
+    this.property.Address2 = this.LandMark.value;
+    this.property.RTM = this.RTM.value;
+    this.property.AOP = this.AOP.value;
+    this.property.Gated = this.Gated.value;
+    this.property.MainEntrance = this.MainEntrance.value;
+    this.property.Possession = this.Possesion.value;
+    this.property.Description = this.Description.value;
+    this.property.Image = 'propNA';
+    this.property.PostedOn = new Date().toString();
+  }
+
 
   allTabsValidated() : boolean {
 

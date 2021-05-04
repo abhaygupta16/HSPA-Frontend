@@ -12,11 +12,28 @@ export class HousingService {
 
   constructor(private http:HttpClient) { }
 
+  /*
+  Get all property method will merge the data from json file as well as the local storage into one
+  common array to get a standard data format of array type
+  */
   getAllProperties(SellRent:number):Observable<Ipropertybase[]>{
     return this.http.get("data/properties.json")
                   .pipe(
                     map(data => {
                         const propertiesArray:Array<Ipropertybase>=[];
+
+                        const localStorageProperties=JSON.parse(localStorage.getItem('newProp'));
+
+                        //this will push the data from local storage into the common array
+                        if(localStorageProperties){
+                          for(const id in localStorageProperties){
+                            if(localStorageProperties.hasOwnProperty(id) && localStorageProperties[id].SellRent===SellRent){
+                              propertiesArray.push(localStorageProperties[id]);
+                            }
+                          }
+                        }
+
+                        // this will push the data from json file ito coomon array
                         for(const id in data){
                           if(data.hasOwnProperty(id) && data[id].SellRent===SellRent){
                             propertiesArray.push(data[id]);
@@ -27,7 +44,27 @@ export class HousingService {
                   );
   }
 
+
+  //Add new property to the local storage
   addProperty(property:Property){
-    localStorage.setItem('newProp', JSON.stringify(property));
+    let newPropArray=[property];
+
+    //Add new property from property list form into array if it already existe in local storage
+    if(localStorage.getItem('newProp')){
+      let properties=JSON.parse(localStorage.getItem('newProp'));
+      newPropArray = [...properties,property]
+    }
+    localStorage.setItem('newProp', JSON.stringify(newPropArray));
+  }
+
+  //Add a function to generate PropoertId Automatically
+  newPropId(){
+    if(localStorage.getItem('PID')){
+      localStorage.setItem('PID', String(+localStorage.getItem('PID') + 1));  //adding 1 to Pid and converting again to string as local stoarage stores in json format.
+      return +localStorage.getItem('PID');     //converting string again to number to assign it to the propId of property
+    }else{
+      localStorage.setItem('PID' ,'101');
+      return 101;
+    }
   }
 }

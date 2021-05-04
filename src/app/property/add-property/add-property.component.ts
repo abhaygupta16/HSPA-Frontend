@@ -77,7 +77,7 @@ export class AddPropertyComponent implements OnInit {
 
       OtherInfo: this.fb.group({
         RTM: [null, Validators.required],
-        PosessionOn: [null],
+        Possession: [null],
         AOP: [null],
         Gated: [null],
         MainEntrance: [null],
@@ -177,8 +177,8 @@ export class AddPropertyComponent implements OnInit {
       return this.OtherInfo.controls.RTM as FormControl;
     }
 
-    get Possesion() {
-      return this.OtherInfo.controls.PosessionOn as FormControl;
+    get Possession() {
+      return this.OtherInfo.controls.Possession as FormControl;
     }
 
     get AOP() {
@@ -227,6 +227,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   mapProperty(): void {
+    this.property.Id = this.housingService.newPropId();
     this.property.SellRent = +this.SellRent.value;  // '+' converts string into number
     this.property.BHK = this.BHK.value;
     this.property.PType = this.PType.value;
@@ -246,7 +247,7 @@ export class AddPropertyComponent implements OnInit {
     this.property.AOP = this.AOP.value;
     this.property.Gated = this.Gated.value;
     this.property.MainEntrance = this.MainEntrance.value;
-    this.property.Possession = this.Possesion.value;
+    this.property.Possession = this.Possession.value;
     this.property.Description = this.Description.value;
     this.property.Image = 'propNA';
     this.property.PostedOn = new Date().toString();

@@ -5,6 +5,7 @@ import { TabsetComponent } from 'ngx-bootstrap/tabs/public_api';
 import { retry } from 'rxjs/operators';
 import { Ipropertybase } from 'src/app/model/ipropertybase';
 import { Property } from 'src/app/model/property';
+import { AlertifyService } from 'src/app/services/alertify.service';
 import { HousingService } from 'src/app/services/housing.service';
 
 
@@ -39,7 +40,10 @@ export class AddPropertyComponent implements OnInit {
     BuiltArea:null
   };
 
-  constructor(private fb:FormBuilder,private router:Router,private housingService:HousingService) { }
+  constructor(private fb:FormBuilder,
+              private router:Router,
+              private housingService:HousingService,
+              private alertify:AlertifyService) { }
 
   ngOnInit() {
     this.createAddPropertyForm();
@@ -208,15 +212,22 @@ export class AddPropertyComponent implements OnInit {
     if(this.allTabsValidated()){
       this.mapProperty();
       this.housingService.addProperty(this.property);
-      console.log('Congrats, your property listed successfully on our website');
+      this.alertify.success('Congrats, your property listed successfully on our website');
+
+      if(this.SellRent.value === '2'){
+        this.router.navigate(['/rent-property']);
+      }else{
+        this.router.navigate(['/']);
+      }
+
+      console.log(this.addPropertyForm);
     }else{
-      console.log('Kindly Review all tabs of the form again');
+      this.alertify.error('Kindly Review all tabs of the form again');
     }
-    console.log(this.addPropertyForm);
   }
 
   mapProperty(): void {
-    this.property.SellRent = +this.SellRent.value;
+    this.property.SellRent = +this.SellRent.value;  // '+' converts string into number
     this.property.BHK = this.BHK.value;
     this.property.PType = this.PType.value;
     this.property.Name = this.Name.value;

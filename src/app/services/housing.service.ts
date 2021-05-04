@@ -12,11 +12,20 @@ export class HousingService {
 
   constructor(private http:HttpClient) { }
 
+  //TO get Property Detail of single property
+  getProperty(id : number){
+    return this.getAllProperties().pipe(
+      map(propertiesArray =>{
+        return propertiesArray.find(p => p.Id === id);
+      })
+    )
+  }
+
   /*
   Get all property method will merge the data from json file as well as the local storage into one
   common array to get a standard data format of array type
   */
-  getAllProperties(SellRent:number):Observable<Ipropertybase[]>{
+  getAllProperties(SellRent ?: number):Observable<Ipropertybase[]>{
     return this.http.get("data/properties.json")
                   .pipe(
                     map(data => {
@@ -27,7 +36,11 @@ export class HousingService {
                         //this will push the data from local storage into the common array
                         if(localStorageProperties){
                           for(const id in localStorageProperties){
-                            if(localStorageProperties.hasOwnProperty(id) && localStorageProperties[id].SellRent===SellRent){
+                            if(SellRent){
+                              if(localStorageProperties.hasOwnProperty(id) && localStorageProperties[id].SellRent===SellRent){
+                                propertiesArray.push(localStorageProperties[id]);
+                              }
+                            }else{
                               propertiesArray.push(localStorageProperties[id]);
                             }
                           }
@@ -35,7 +48,11 @@ export class HousingService {
 
                         // this will push the data from json file ito coomon array
                         for(const id in data){
-                          if(data.hasOwnProperty(id) && data[id].SellRent===SellRent){
+                          if(SellRent){
+                            if(data.hasOwnProperty(id) && data[id].SellRent===SellRent){
+                              propertiesArray.push(data[id]);
+                            }
+                          }else{
                             propertiesArray.push(data[id]);
                           }
                         }

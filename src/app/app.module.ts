@@ -21,6 +21,7 @@ import { UserRegisterComponent } from './user/user-register/user-register.compon
 import { UserService } from './services/user.service';
 import { AlertifyService } from './services/alertify.service';
 import { AuthService } from './services/auth.service';
+import { PropertyDetailResolverService } from './services/property-detail-resolver.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { AuthService } from './services/auth.service';
     HousingService,
     UserService,
     AlertifyService,
-    AuthService
+    AuthService,
+    PropertyDetailResolverService
   ],
   bootstrap: [AppComponent]
 })

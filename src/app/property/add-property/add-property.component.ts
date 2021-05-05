@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs/public_api';
-import { retry } from 'rxjs/operators';
 import { Ipropertybase } from 'src/app/model/ipropertybase';
 import { Property } from 'src/app/model/property';
 import { AlertifyService } from 'src/app/services/alertify.service';

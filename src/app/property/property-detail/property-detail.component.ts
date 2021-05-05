@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Property } from 'src/app/model/property';
 import { HousingService } from 'src/app/services/housing.service';
+//import {NgxGalleryOptions} from '@kolkov/ngx-gallery';
+//import {NgxGalleryImage} from '@kolkov/ngx-gallery';
+//import {NgxGalleryAnimation} from '@kolkov/ngx-gallery';
 
 @Component({
   selector: 'app-property-detail',
@@ -10,8 +13,12 @@ import { HousingService } from 'src/app/services/housing.service';
 })
 export class PropertyDetailComponent implements OnInit {
 
-  propertyId:number;
-  property=new Property();
+  propertyId:number;       //propertyid for current selected property from property list.
+  property=new Property();  //object of property class
+
+  //galleryOptions: NgxGalleryOptions[];   //for image gallery
+  //galleryImages: NgxGalleryImage[];       //for image gallery
+
 
   constructor(private route:ActivatedRoute,
               private router:Router,
@@ -31,8 +38,7 @@ export class PropertyDetailComponent implements OnInit {
     //                    this.housingService.getProperty(this.propertyId)
     //                                        .subscribe( (data : Property) => this.property = data)
     //                  });
+
+
   }
-
-
-
 }

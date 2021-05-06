@@ -248,7 +248,6 @@ export class AddPropertyComponent implements OnInit {
     this.property.MainEntrance = this.MainEntrance.value;
     this.property.Possession = this.Possession.value;
     this.property.Description = this.Description.value;
-    this.property.Image = 'propNA';
     this.property.PostedOn = new Date().toString();
   }
 

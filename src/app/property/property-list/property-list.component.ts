@@ -12,8 +12,12 @@ import { HousingService } from 'src/app/services/housing.service';
 export class PropertyListComponent implements OnInit {
 
   SellRent:number=1;
+  properties: Array<Ipropertybase>;
 
-  properties: Array<Ipropertybase> ;
+  City = "";
+  SearchCity = "";
+  SelectParam = "";
+  SortDirection = "asc";
 
   constructor( private route: ActivatedRoute,private housingService : HousingService) { }
 
@@ -30,4 +34,20 @@ export class PropertyListComponent implements OnInit {
                           error => console.log(error));
   }
 
+  onSearchFilter(){
+    this.SearchCity = this.City;
+  }
+
+  onSearchFilterClear(){
+    this.SearchCity="";
+    this.City="";
+  }
+
+  onSortDirection(){
+    if(this.SortDirection==="desc"){
+      this.SortDirection="asc";
+    }else{
+      this.SortDirection="desc";
+    }
+  }
 }
